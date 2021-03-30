@@ -1,0 +1,15 @@
+{
+  "name": "node-clean-architecture-api",
+  "version": "1.0.0",
+  "description": "NodeJs, Typescript, TDD, Clean Architecture e SOLID",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Bruno Teixeira de Sousa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brunosousadev/node-clean-architecture-api/issues"
+  }
+}
