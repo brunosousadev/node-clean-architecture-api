@@ -11,5 +11,8 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/brunosousadev/node-clean-architecture-api/issues"
+  },
+  "dependencies": {
+    "git-commit-msg-linter": "^3.1.0"
   }
 }
