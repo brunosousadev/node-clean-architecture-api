@@ -2,15 +2,6 @@ import { SignUpController } from './signup'
 import { EmailValidator, HttpRequest } from '../protocols'
 import { MissingParamError, InvalidParamError, ServerError } from '../errors'
 
-const makeEmailValidatorWithError = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid (email: string): boolean {
-      throw new Error()
-    }
-  }
-  return new EmailValidatorStub()
-}
-
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
     isValid (email: string): boolean {
@@ -116,8 +107,10 @@ describe('SignUp Controller', () => {
     expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
   test('should return 500 if EmailValidator throws', async () => {
-    const emailValidatorStub = makeEmailValidatorWithError()
-    const sut = new SignUpController(emailValidatorStub)
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
     const httpRequest: HttpRequest = {
       body: {
         name: 'any_name',
