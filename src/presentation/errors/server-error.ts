@@ -1,6 +1,9 @@
-export class ServerError extends Error {
+export class ServerError implements Error {
+  name: string
+  message: string
+  stack?: string
   constructor () {
-    super('Internal server error')
-    this.name = 'ServerError'
+    this.message = 'nternal server error'
+    this.name = 'InvalidParamError'
   }
 }
