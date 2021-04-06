@@ -9,26 +9,42 @@ const makeFakeRequest = (): HttpRequest => ({
     passwordConfirmation: 'any_password'
   }
 })
+const makeController = (): Controller => {
+  class ControllerStub implements Controller {
+    async handle (HttpRequest: HttpRequest): Promise<HttpResponse> {
+      const httpResponse = {
+        statusCode: 200,
+        body: {
+          id: 'valid_id',
+          name: 'valid_name',
+          email: 'valid_email@mail.com',
+          password: 'valid_password'
+        }
+      }
+      return await new Promise(resolve => resolve(httpResponse))
+    }
+  }
+
+  return new ControllerStub()
+}
+interface SutTypes {
+  sut: LogControllerDecorator
+  controllerStub: Controller
+}
+
+const makeSut = (): SutTypes => {
+  const controllerStub = makeController()
+  const sut = new LogControllerDecorator(controllerStub)
+  return {
+    sut,
+    controllerStub
+  }
+}
 
 describe('LogController Decorator', () => {
   test('Should call controller handle', async () => {
-    class ControllerStub implements Controller {
-      async handle (HttpRequest: HttpRequest): Promise<HttpResponse> {
-        const httpResponse = {
-          statusCode: 200,
-          body: {
-            id: 'valid_id',
-            name: 'valid_name',
-            email: 'valid_email@mail.com',
-            password: 'valid_password'
-          }
-        }
-        return await new Promise(resolve => resolve(httpResponse))
-      }
-    }
-    const controllerStub = new ControllerStub()
+    const { sut, controllerStub } = makeSut()
     const handleSpy = jest.spyOn(controllerStub, 'handle')
-    const sut = new LogControllerDecorator(controllerStub)
     await sut.handle(makeFakeRequest())
     expect(handleSpy).toHaveBeenCalledWith(makeFakeRequest())
   })
