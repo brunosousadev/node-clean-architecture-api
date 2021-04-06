@@ -9,6 +9,7 @@ const makeFakeRequest = (): HttpRequest => ({
     passwordConfirmation: 'any_password'
   }
 })
+
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
     async handle (HttpRequest: HttpRequest): Promise<HttpResponse> {
@@ -47,5 +48,18 @@ describe('LogController Decorator', () => {
     const handleSpy = jest.spyOn(controllerStub, 'handle')
     await sut.handle(makeFakeRequest())
     expect(handleSpy).toHaveBeenCalledWith(makeFakeRequest())
+  })
+  test('Should return the same result of the controller', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual({
+      statusCode: 200,
+      body: {
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@mail.com',
+        password: 'valid_password'
+      }
+    })
   })
 })
