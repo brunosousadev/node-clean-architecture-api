@@ -1,10 +1,8 @@
 import { LoginController } from './login'
+import { HttpRequest, EmailValidator, Authentication } from './login-protocols'
 import { badRequest, serverError, unauthorized } from '../../helpers/http/http-helper'
-import { MissingParamError } from '../../errors/missing-param-error'
-import { HttpRequest } from '../../protocols'
-import { EmailValidator } from '../signup/signup-protocols'
-import { InvalidParamError } from '../../errors'
-import { Authentication } from '../../../domain/usecases/authentication'
+import { InvalidParamError, MissingParamError } from '../../errors'
+
 const makeFakeError = (): Error => {
   const fakeErro = new Error()
   fakeErro.stack = 'any_stack'
@@ -54,7 +52,7 @@ const makeSut = (): SutTypes => {
 describe('Login Controller', () => {
   test('Should return 400 if no email is provided', async () => {
     const { sut } = makeSut()
-    const httpRequest = {
+    const httpRequest: HttpRequest = {
       body: {
         password: 'any_password'
       }
@@ -64,7 +62,7 @@ describe('Login Controller', () => {
   })
   test('Should return 400 if no password is provided', async () => {
     const { sut } = makeSut()
-    const httpRequest = {
+    const httpRequest: HttpRequest = {
       body: {
         email: 'any_email@mail.com'
       }
