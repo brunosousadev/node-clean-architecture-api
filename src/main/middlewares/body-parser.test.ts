@@ -3,9 +3,8 @@ import app from '../config/app'
 interface BodyTypes {
   name: string
 }
+const makeBody = (): BodyTypes => ({ name: 'Bruno' })
 describe('Body Parser Middleware', () => {
-  const makeBody = (): BodyTypes => ({ name: 'Bruno' })
-
   test('Should parse body as json', async () => {
     app.post('/test-body-parser', (req, res) => {
       res.send(req.body)
