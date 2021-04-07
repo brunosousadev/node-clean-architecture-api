@@ -3,7 +3,7 @@ export class ServerError implements Error {
   message: string
   stack?: string
   constructor (stack: string) {
-    this.message = 'nternal server error'
+    this.message = 'Internal server error'
     this.name = 'InvalidParamError'
     this.stack = stack
   }
